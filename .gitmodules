@@ -1,0 +1,9 @@
+[submodule "Project-Management-Tool"]
+	path = Project-Management-Tool
+	url = https://github.com/solhx/CodeAlpha_Project-Management-Tool.git
+[submodule "Mini-Social-Media"]
+	path = Mini-Social-Media
+	url = https://github.com/solhx/CodeAlpha_mini-social-media-platform.git
+[submodule "Simple-E-commerce-Store"]
+	path = Simple-E-commerce-Store
+	url = https://github.com/solhx/CodeAlpha_Simple-E-commerce-Store.git
