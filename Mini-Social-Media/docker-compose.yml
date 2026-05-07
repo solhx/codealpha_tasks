@@ -1,0 +1,49 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: socialsphere_mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: socialsphere
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: socialsphere_backend
+    restart: always
+    ports:
+      - '5000:5000'
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/socialsphere
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRE=30d
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+      - CLIENT_URL=http://localhost:5173
+    depends_on:
+      - mongo
+    volumes:
+      - ./backend/logs:/app/logs
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: socialsphere_frontend
+    restart: always
+    ports:
+      - '5173:80'
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
